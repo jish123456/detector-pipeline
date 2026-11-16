@@ -1,0 +1,19 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - detector-data:/srv/data
+
+  simulator:
+    build: .
+    command: ["python", "-m", "simulator.simulator"]
+    environment:
+      API_URL: http://api:8000
+      INTERVAL_S: "1"
+    depends_on:
+      - api
+
+volumes:
+  detector-data:
